@@ -1,3 +1,3 @@
 # DGE
-Here I use R packages edgeR, limma and Glimma for pairwise differential gene expression analyses in three pairs of closely related _Diospyros_ species growing in a common garden. Each pair consists of one species native to normal soil and one to ultramafic soil. Hence overlaps of differentially expressed genes in the three pairs are assessed.  
-This code is adapted from https://bioconductor.org/packages/release/workflows/vignettes/RNAseq123/inst/doc/limmaWorkflow.html for my personal use.
+This is pairwise differential gene expression analyses in three pairs of closely related _Diospyros_ species growing in a common garden. Each pair consists of one species native to normal soil and one to ultramafic soil.
+Although the filtration for genes with low counts (R package edgeR) is done on the entire dataset of six species, the differential expression (R package DESeq2) and GO enrichment (topGO) analysis here is shown for one species pair rev-lab (_D.revolutissima_ vs. _D.labillardierei_) only. Z-scores are also calculated for the enriched GO terms. Of course, this can be easily replicated for the two remaining pairs.
