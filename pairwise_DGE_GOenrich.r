@@ -6,7 +6,8 @@ library(data.table)
 library(dplyr)
 library(ggtext)
 
-# Load raw counts, species assignments and gene annotations
+
+### Load raw counts, species assignments and gene annotations ###
 setwd("C:/Users/Admin/Documents/rna/root/")
 counts_raw <- read.csv("C:/Users/Admin/Documents/rna/root/rootRNAcounts_ordered", header = TRUE, sep = "\t")
 counts <- DGEList(counts = counts_raw[,c(1,7:42)], group =
@@ -19,13 +20,15 @@ annotation <- read.csv("C:/Users/Admin/Documents/rna/amin_redo/vie1167c_Omicsbox
 annotation <- annotation[annotation$SeqName %in% counts$genes$Geneid,]
 annotation <- annotation[,c("SeqName", "Description","Length","GO.Names","GO.IDs")]  #annotations of genes in counts table
 
-# Filter & normalise
+
+### Filter & normalise ###
 dim(counts)	#check initial number of genes
 keep.exprs <- filterByExpr(counts, group=species)
 counts <- counts[keep.exprs,, keep.lib.sizes=FALSE]  # 10/(median lib size) CPM cutoff met for at least 6 samples (size of a species group)
 dim(counts) #check final number of genes post-filtering
 
-# Set up comparisons and find DEGs
+
+### Set up comparisons and find DEGs ###
 dds <- DESeqDataSetFromMatrix(
   countData = counts[["counts"]],
   colData = counts[["samples"]],
@@ -46,6 +49,8 @@ res_revlab_annot <- merge(
 sig_revlab <- subset(res_revlab_annot, padj<0.05 & abs(log2FoldChange) > 1.5)
 write.table(sig_revlab[,c(8,9,11,12,3,6,7,4,5,2,10)], file = "revlab_root_deseq_Ppt05_lfc1pt5.genes", sep = "\t", quote = FALSE, row.names = FALSE)
 
+
+### Setting up GO and gene universe ###
 # Annotation and gene list files
 args <- c("C:/Users/Admin/Documents/rna/amin_redo/topgo_amin.ann","revlab_root_deseq_Ppt05_lfc1pt5.genes")
 universeFile <- args[1]
@@ -65,7 +70,8 @@ names(geneList) <- geneUniverse
 
 setDT(sig_revlab)  # DESeq results with SeqName and log2FoldChange
 
-# Function to run topGO and compute z-scores for one ontology
+
+### Function to run topGO and compute z-scores for one ontology ###
 run_topgo_zscore <- function(ontology) {
   
   message("Running topGO for ontology: ", ontology)
@@ -111,7 +117,8 @@ run_topgo_zscore <- function(ontology) {
   return(GOresults)
 }
 
-# Run for all three ontologies and combine results
+
+### Running GO enrichment for all three ontologies, combining results and plotting bar charts ###
 results_BP <- run_topgo_zscore("BP")
 results_CC <- run_topgo_zscore("CC")
 results_MF <- run_topgo_zscore("MF")
