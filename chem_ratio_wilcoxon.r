@@ -33,7 +33,7 @@ replace_outliers_with_na <- function(data, columns) {
   return(data)
 }
 
-leaf_soil_type <- read.csv('C:/Users/Admin/Documents/chem/leaf_and_soil_no_amb_addNA.tsv', header = TRUE, sep = "\t")
+leaf_soil_type <- read.csv('C:/Users/Admin/Documents/chem/leaf_and_soil_no_amb_addNA.tsv', header = TRUE, sep = "\t")  # using a dataset filtered of possibly inaccurate measurements as indicated by the measurement facilities
 rownames(leaf_soil_type) <- leaf_soil_type$leaf_sample  # each datapoint maps to a unique leaf sample
 leaf_soil_type <- leaf_soil_type[!(row.names(leaf_soil_type) %in% c("pan1146","pan1147","eru1109")), ]  # removing a few doubtful samples
 
