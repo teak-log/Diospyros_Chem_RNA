@@ -22,8 +22,7 @@ annotation <- annotation[,c("SeqName", "Description","Length","GO.Names","GO.IDs
 # Filter & normalise
 dim(counts)	#check initial number of genes
 keep.exprs <- filterByExpr(counts, group=species)
-counts <- counts[keep.exprs,, keep.lib.sizes=FALSE]
-# 10/(median lib size) CPM cutoff met for at least 6 samples (size of a species group)
+counts <- counts[keep.exprs,, keep.lib.sizes=FALSE]  # 10/(median lib size) CPM cutoff met for at least 6 samples (size of a species group)
 dim(counts) #check final number of genes post-filtering
 
 # Set up comparisons and find DEGs
@@ -123,6 +122,8 @@ all_results <- bind_rows(results_BP, results_CC, results_MF)
 write.table(all_results, file = "revlab_root_deseq_padj05_lfc1pt5_zscore.txt",
             sep = "\t", row.names = FALSE, quote = FALSE)
 
+# Plot bar charts where length of bar = -log(pval), continuous colour scales denote z-score,
+# and figures in the bars are of the form no. of DE genes / no. of tested genes in the GO term
 GOresults <- read.table("revlab_root_deseq_padj05_lfc1pt5_zscore.txt", sep = "\t", header = TRUE)
 GOresults %>% ggplot(aes(x = reorder(Term, z_score), y = logP, fill = z_score)) + geom_col() + geom_text(aes(label = paste(Significant, Annotated, sep = "/")),
                                                                                                          hjust = 1, size = 3) + coord_flip() +
