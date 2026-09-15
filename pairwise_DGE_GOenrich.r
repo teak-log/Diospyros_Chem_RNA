@@ -20,8 +20,8 @@ counts$samples$species <- species
 group <- counts$samples$group  # counts dataframe specifying species and soil preferences
 
 annotation <- read.csv("C:/Users/Admin/Documents/rna/vie1167c_OmicsboxAminGene_Fannotation.txt", sep = "\t")
-annotation <- annotation[annotation$SeqName %in% counts$genes$Geneid,]
-annotation <- annotation[,c("SeqName", "Description","Length","GO.Names","GO.IDs")]  #annotations of genes in counts table
+annotation <- annotation[annotation$SeqName %in% counts$genes$Geneid,]  #annotations of genes in counts table
+annotation <- annotation[,c("SeqName", "Description","Length","GO.Names","GO.IDs")]
 
 
 ### Filter & normalise ###
@@ -37,7 +37,6 @@ dds <- DESeqDataSetFromMatrix(
   colData = counts[["samples"]],
   design = ~ species
 )
-
 dds <- DESeq(dds)
 
 res_revlab <- results(dds, contrast = c("species", "rev", "lab"))
