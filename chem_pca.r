@@ -3,6 +3,8 @@ library(dplyr)
 library(factoextra)
 leafsoil <- read.csv("C:/Users/Admin/Documents/chem/leaf_and_soil_no_amb.tsv",
                      header = TRUE, sep = '\t')
+
+
 ######## LEAF ########
 leaf <- dplyr::select(leafsoil, leaf_sample, species, soil_type:S_leaf, Co_leaf:Mo_leaf)  # Pb dropped due to extremely low resolution measurements
 rownames(leaf) <- leaf$leaf_sample
