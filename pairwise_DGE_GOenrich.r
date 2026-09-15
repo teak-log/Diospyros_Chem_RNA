@@ -19,7 +19,7 @@ species <- as.factor(rep(c("cal","spn","imp","heq","lab","rev"), rep.int(6,6) ))
 counts$samples$species <- species
 group <- counts$samples$group  # counts dataframe specifying species and soil preferences
 
-annotation <- read.csv("C:/Users/Admin/Documents/rna/amin_redo/vie1167c_OmicsboxAminGene_Fannotation.txt", sep = "\t")
+annotation <- read.csv("C:/Users/Admin/Documents/rna/vie1167c_OmicsboxAminGene_Fannotation.txt", sep = "\t")
 annotation <- annotation[annotation$SeqName %in% counts$genes$Geneid,]
 annotation <- annotation[,c("SeqName", "Description","Length","GO.Names","GO.IDs")]  #annotations of genes in counts table
 
