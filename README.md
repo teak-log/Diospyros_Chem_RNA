@@ -1,4 +1,4 @@
-# Scripts & Data for studying Parallel Adaptation through RNAseq and Soil & Leaf Chemistry data in a Phylogenetic framework
+# Studying Parallel Adaptation through RNAseq and Soil & Leaf Chemistry data in a Phylogenetic framework
 
 1. Soil & Leaf Chemistry PCA
 1. Mann-Whitney U tests on Leaf:Soil Ratios
