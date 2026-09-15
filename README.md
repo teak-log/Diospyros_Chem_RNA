@@ -1,7 +1,7 @@
 # Studying Parallel Adaptation through RNAseq and Soil & Leaf Chemistry data in a Phylogenetic framework
 
 1. Soil & Leaf Chemistry PCA
-1. Mann-Whitney U tests on Leaf:Soil Ratios
+1. Mann-Whitney U tests on Leaf : Soil Ratios
 1. Differential Gene Expression
 
 ## 1. Soil & Leaf Chemistry PCA
