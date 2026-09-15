@@ -20,7 +20,7 @@ counts$samples$species <- species
 group <- counts$samples$group  # counts dataframe specifying species and soil preferences
 
 annotation <- read.csv("C:/Users/Admin/Documents/rna/vie1167c_OmicsboxAminGene_Fannotation.txt", sep = "\t")
-annotation <- annotation[annotation$SeqName %in% counts$genes$Geneid,]  #annotations of genes in counts table
+annotation <- annotation[annotation$SeqName %in% counts$genes$Geneid,]  # functional annotations of genes in counts table
 annotation <- annotation[,c("SeqName", "Description","Length","GO.Names","GO.IDs")]
 
 
@@ -54,7 +54,7 @@ write.table(sig_revlab[,c(8,9,11,12,3,6,7,4,5,2,10)], file = "revlab_root_deseq_
 
 ### Setting up GO and gene universe ###
 
-args <- c("C:/Users/Admin/Documents/rna/amin_redo/topgo_amin.ann","revlab_root_deseq_Ppt05_lfc1pt5.genes")  # Annotation and significant genes list
+args <- c("C:/Users/Admin/Documents/rna/amin_redo/topgo_amin.ann","revlab_root_deseq_Ppt05_lfc1pt5.genes")  # gene ID to GO term mapping and significant genes list
 universeFile <- args[1]
 interestingGenesFile <- args[2]
 
