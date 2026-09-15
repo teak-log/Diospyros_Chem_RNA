@@ -1,3 +1,6 @@
+# The input for this R code is a collated tsv file with both leaf and root analysis results of the CAGEE command run with 3 evolutionary rates:
+# cagee --cores 16 --tree cagee2_tree.nwk --infile cagee2_medians.tsv --sigma_tree cagee3_sigmatree.nwk -o /gpfs/data/fs71400/teerna/cagee/results2_3sigma
+
 library(dplyr)
 library(ggtree)
 library(tidyr)
@@ -6,7 +9,7 @@ library(ggplot2)
 
 ### Set up phylogeny and load CAGEE results ###
 tree <- read.tree(text = "(labillardierei:1,(revolutissima:0.8394620094,((impolita:0.4335132768,hequetiae:0.4335132768)<11>:0.2456226085,(calciphila:0.2076888523,spPicNga:0.2076888523)<10>:0.4714470331)<9>:0.1603261241)<8>:0.1605379906)<7>;")
-dat <- read.table("3sigma_leaf_root.txt", header = TRUE, sep = "\t")  # cagee results for leaves and roots collated into one file used as input here
+dat <- read.table("3sigma_leaf_root.tsv", header = TRUE, sep = "\t")  # CAGEE results for leaves and roots collated into one file used as input here
 
 min_branch <- min(dat$terminal_branch)
 dat$terminal_branch <- dat$terminal_branch / min_branch
