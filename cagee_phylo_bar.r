@@ -1,5 +1,5 @@
 # The input for this R code is a collated tsv file with both leaf and root analysis results of the CAGEE command run with 3 evolutionary rates:
-# cagee --cores 16 --tree cagee2_tree.nwk --infile cagee2_medians.tsv --sigma_tree cagee3_sigmatree.nwk -o /gpfs/data/fs71400/teerna/cagee/results2_3sigma
+# cagee --cores 16 --tree cagee2_tree.nwk --infile cagee2_medians.tsv --sigma_tree cagee3_sigmatree.nwk -o C:/Users/Admin/Documents/rna/root/cagee/results2_3sigma
 
 library(dplyr)
 library(ggtree)
