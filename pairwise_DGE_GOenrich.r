@@ -12,7 +12,7 @@ library(ggtext)
 
 ### Load raw counts, species assignments and gene annotations ###
 setwd("C:/Users/Admin/Documents/rna/root/")
-counts_raw <- read.csv("C:/Users/Admin/Documents/rna/root/rootRNAcounts_ordered", header = TRUE, sep = "\t")
+counts_raw <- read.csv("C:/Users/Admin/Documents/rna/root/rootRNAcounts_ordered.tsv", header = TRUE, sep = "\t")
 counts <- DGEList(counts = counts_raw[,c(1,7:42)], group =
                     as.factor(rep(c("sed","ult","sed","ult","sed","ult"), rep.int(6,6))))  # native soil-type assignments
 species <- as.factor(rep(c("cal","spn","imp","heq","lab","rev"), rep.int(6,6) ))  # species assignments
