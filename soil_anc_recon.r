@@ -7,8 +7,8 @@ library(phytools)
 ### Choosing a Character Model ###
 dio.tree <- read.tree("C:/Users/Admin/Documents/rna/cagee/trial2/astral2_unann.nwk")
 dio.tree <- drop.tip(dio.tree, c("sandwicensis", "tireliae", "glans", "ptparviflora", "inexplorata"))  # dropping species with no soil data available
-dio.data <- read.csv("soil_preference.txt", sep = "\t", header = TRUE)
-soil.pref <- read.csv("soil_preference.txt", sep = "\t", row.names = 1,
+dio.data <- read.csv("soil_preference.tsv", sep = "\t", header = TRUE)
+soil.pref <- read.csv("soil_preference.tsv", sep = "\t", row.names = 1,
                       stringsAsFactors = TRUE)
 soil.pref <- setNames(soil.pref[,1], rownames(soil.pref))
 
