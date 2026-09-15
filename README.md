@@ -6,7 +6,7 @@
 1. Differential Gene Expression
 
 ## 1. Soil & Leaf Chemistry PCA
-Separate PCAs are made for the leaf and soil chemistry datasets to get a broad overview. Each loading is the concentration of an element normalised across the distribution of the variable such that the mean is zero and variance is one.
+Separate PCAs are made for the soil and leaf elemental quantifications from wild New Caledonian _Diospyros_ to get a broad overview of the edaphic selection pressures and how the plant chemistries respond to it. Each loading is the concentration of an element normalised across the distribution of the variable such that the mean is zero and variance is one.
 
 ## 2. Mann-Whitney U tests on Leaf : Soil Ratios
 After the soil PCA shows two main clusters of soil types, ultramafic and non-ultramafic, Mann-Whitney U tests are conducted per element between these two groups where each datapoint is the ratio of the concentration of the given element in leaves versus surrounding soil of an individual.
