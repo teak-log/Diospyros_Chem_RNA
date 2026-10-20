@@ -57,11 +57,41 @@ leaf_soil_type_mod <- leaf_soil_type_mod %>% mutate(S_ratio = S_leaf / S_soil)
 leaf_soil_type_mod <- leaf_soil_type_mod %>% mutate(Co_ratio = Co_leaf / Co_soil)
 
 
-### Organising ratio dataset & plotting half-violins showing Mann-Whitney U tests ###
+### Organising ratio dataset, tabulating sample sizes, p-values etc. & plotting half-violins showing Mann-Whitney U tests ###
 anno <- list()  # initiate list of p-values
 plot_list <- list()
 sig_list <- c(46, 49, 52, 51, 48, 53, 55, 54, 61, 56, 58, 59)  # to help collect the above generated new columns in order of increasing atomic no. of the elements
+leaf_soil_type_raw <- leaf_soil_type_mod    # save a copy of the raw data for later comparisons of p-values
 leaf_soil_type_mod <- replace_outliers_with_na(leaf_soil_type_mod, sig_list)  # applying the outlier function on the ratios
+
+#constructing a table to show sample sizes, p-values before and after outlier removal, after Benjamini-Hochberg correction etc.
+p_before <- p_after <- numeric(length(sig_list))
+for (j in seq_along(sig_list)) {
+  i <- as.integer(sig_list[j])
+  p_before[j] <- wilcox.test(
+    leaf_soil_type_raw[leaf_soil_type_raw$soil_type == "sed", i],
+    leaf_soil_type_raw[leaf_soil_type_raw$soil_type == "ult", i])$p.value
+  p_after[j] <- wilcox.test(
+    leaf_soil_type_mod[leaf_soil_type_mod$soil_type == "sed", i],
+    leaf_soil_type_mod[leaf_soil_type_mod$soil_type == "ult", i])$p.value
+}
+p_bh <- p.adjust(p_after, method = "BH")   # BH correction across the 12 tests (post-outlier p-values)
+
+res_table <- data.frame(
+  element = sub("_ratio", "", names(leaf_soil_type_mod)[sig_list]),
+  median  = sapply(sig_list, function(i) median(leaf_soil_type_raw[, i], na.rm = TRUE)),   # pooled, before outlier removal
+  IQR     = sapply(sig_list, function(i) IQR(leaf_soil_type_raw[, i], na.rm = TRUE)),      # pooled, before outlier removal
+  sample_size = sapply(sig_list, function(i) {                                              # format: #sed + #ult = total
+    n_sed <- sum(!is.na(leaf_soil_type_mod[leaf_soil_type_mod$soil_type == "sed", i]))
+    n_ult <- sum(!is.na(leaf_soil_type_mod[leaf_soil_type_mod$soil_type == "ult", i]))
+    paste0(n_sed, " + ", n_ult, " = ", n_sed + n_ult)
+  }),
+  p_before_outlier_removal = p_before,
+  p_after_outlier_removal  = p_after,
+  p_BH_corrected           = p_bh
+)
+print(res_table)
+write.csv(res_table, "leafsoil_ratio_stats.csv", row.names = FALSE)
 
 #plotting grid of half violins with inset box plots for sedimentary vs ultramafic samples, showing p-values for Mann-Whitney U tests
 for (j in 1:12) {
@@ -79,10 +109,10 @@ for (j in 1:12) {
     geom_label(label=paste((sub("_ratio","",colnames(leaf_soil_type_mod)[i]))),
                x=0.6, y=max(as.numeric(na.omit(leaf_soil_type_mod[,i]))),
                color = "black", fill="white") +
-    geom_signif(annotation = formatC(anno[[j]], digits = 1),
+    geom_signif(annotation = formatC(p_bh[j], digits = 1),
                 y_position=max(as.numeric(na.omit(leaf_soil_type_mod[,i]))) +
                   0.1*max(as.numeric(na.omit(leaf_soil_type_mod[,i]))),
-                xmin = 0.9, xmax = 1.1, textsize = 3.2) + labs(x = NULL, y=NULL) +
+                xmin = 0.9, xmax = 1.1, textsize = 3.5) + labs(x = NULL, y=NULL) +
     coord_cartesian(clip = "off") + theme(axis.text.x = element_blank(),
                                           axis.ticks.x=element_blank())
 }
