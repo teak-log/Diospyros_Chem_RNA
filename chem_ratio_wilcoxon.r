@@ -102,20 +102,21 @@ for (j in 1:12) {
   
   plot_list[[j]] <- ggplot(leaf_soil_type_mod,
                            aes_string(x=1,y=names(leaf_soil_type_mod)[i],
-                                      fill="soil_type")) + geom_split_violin() +
+                                      fill="soil_type")) + geom_split_violin(alpha=0.6, color=NA) +
     scale_fill_manual(values=c("#005F60", "#FF8800")) +
     geom_boxplot(width=0.2, linewidth=0.1, color="black", alpha=0.1, outlier.shape = NA) +
     guides(fill = "none") + theme_minimal() +
     geom_label(label=paste((sub("_ratio","",colnames(leaf_soil_type_mod)[i]))),
-               x=0.6, y=max(as.numeric(na.omit(leaf_soil_type_mod[,i]))),
+               x=0.75, y=max(as.numeric(na.omit(leaf_soil_type_mod[,i]))),
                color = "black", fill="white") +
     geom_signif(annotation = formatC(p_bh[j], digits = 1),
                 y_position=max(as.numeric(na.omit(leaf_soil_type_mod[,i]))) +
                   0.1*max(as.numeric(na.omit(leaf_soil_type_mod[,i]))),
                 xmin = 0.9, xmax = 1.1, textsize = 3.5) + labs(x = NULL, y=NULL) +
     coord_cartesian(clip = "off") + theme(axis.text.x = element_blank(),
-                                          axis.ticks.x=element_blank())
+                                          axis.ticks.x=element_blank(),
+                                          panel.grid = element_blank())
 }
 soil_label = richtext_grob(text =
-                           '<span style="color:black">Soil type (</span><span style="color:#005F60">sedimentary</span><span style="color:black">/</span><span style="color:#FF8800">ultramafic</span><span style="color:black">)</span>')
-grid.arrange(grobs=plot_list, ncol=6, bottom=soil_label,left="leaf:soil concentrations of elements")
+                           '<span style="color:black">Soil type (</span><span style="color:#005F60">non-ultramafic</span><span style="color:black"> / </span><span style="color:#FF8800">ultramafic</span><span style="color:black">)</span>')
+grid.arrange(grobs=plot_list, ncol=6, bottom=soil_label,left="leaf : soil concentrations of elements")
